@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>images/call.png</file>
+        <file>images/cog.png</file>
+        <file>images/help.png</file>
+        <file>images/list.png</file>
+        <file>main.cpp</file>
+        <file>MemoryForm.ui.qml</file>
+        <file>images/list_window.png</file>
+        <file>SettingsForm.ui.qml</file>
+    </qresource>
+</RCC>
