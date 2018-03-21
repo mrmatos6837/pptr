@@ -3,9 +3,6 @@ import QtQuick.Controls 2.2
 import "."
 import "./images"
 
-////global var declares
-
-
 ApplicationWindow {
     id: mainWindow
     visible: true
@@ -31,12 +28,10 @@ ApplicationWindow {
         roundButton10.onClicked: { dialNumber.text = dialNumber.text+'*' }
         roundButton11.onClicked: { dialNumber.text = dialNumber.text+'POUND' }
 
-        buttonDial.onClicked: { dial(dialNumber.text, '1'); }
+        buttonDial.onClicked: { dial(dialNumber.text, '1') }
 
         ////other stuff
-        buttonHelp.onClicked: {
-
-        }
+        buttonHelp.onClicked: {} //implement
         dialNumber.onAccepted: { dial(dialNumber.text, '1') }
         buttonList.onClicked: { memoryWindow.visible = true }
         buttonSettings.onClicked: { settingsWindow.visible = true }
@@ -60,8 +55,8 @@ ApplicationWindow {
 
 
         buttonLine1.onClicked: {
-            buttonLine2.font.underline = false
-            buttonLine3.font.underline = false
+            buttonLine2.font.underline = false;
+            buttonLine3.font.underline = false;
             if (buttonLine1.font.underline){
                 buttonLine1.font.underline = false
             }
@@ -72,8 +67,8 @@ ApplicationWindow {
         }
 
         buttonLine2.onClicked: {
-            buttonLine1.font.underline = false
-            buttonLine3.font.underline = false
+            buttonLine1.font.underline = false;
+            buttonLine3.font.underline = false;
             if (buttonLine2.font.underline){
                 buttonLine2.font.underline = false
             }
@@ -93,7 +88,6 @@ ApplicationWindow {
             }
             request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L3');
         }
-
     }
 
     ApplicationWindow{
@@ -104,7 +98,6 @@ ApplicationWindow {
         title: qsTr("Kpuppetter - v0.1 - Settings")
 
         SettingsForm {
-
             ipValue.onAccepted: {
                 global.ip = ipValue.text;
                 pelamordedeus.logText.text = qsTr(global.ip);
@@ -117,9 +110,7 @@ ApplicationWindow {
                 global.password = password.text;
                 pelamordedeus.logText.text = qsTr(global.password);
             }
-
         }
-
     }
 
 
@@ -131,43 +122,18 @@ ApplicationWindow {
         title: qsTr("Kpuppetter - v0.1 - Memory")
 
         MemoryForm {
-
-            button0.onClicked: {
-                dial(number0.text, "1");
-            }
-            button1.onClicked: {
-                dial(number1.text, "1");
-            }
-            button2.onClicked: {
-                dial(number2.text, "1");
-            }
-            button3.onClicked: {
-                dial(number3.text, "1");
-            }
-            button4.onClicked: {
-                dial(number4.text, "1");
-            }
-            button5.onClicked: {
-                dial(number5.text, "1");
-            }
-            button6.onClicked: {
-                dial(number6.text, "1");
-            }
-            button7.onClicked: {
-                dial(number7.text, "1");
-            }
-            button8.onClicked: {
-                dial(number8.text, "1");
-            }
-            button9.onClicked: {
-                dial(number9.text, "1");
-            }
-            button10.onClicked: {
-                dial(number10.text, "1");
-            }
-            button11.onClicked: {
-                dial(number11.text, "1");
-            }
+            button0.onClicked: { dial(number0.text, "1") }
+            button1.onClicked: { dial(number1.text, "1") }
+            button2.onClicked: { dial(number2.text, "1") }
+            button3.onClicked: { dial(number3.text, "1") }
+            button4.onClicked: { dial(number4.text, "1") }
+            button5.onClicked: { dial(number5.text, "1") }
+            button6.onClicked: { dial(number6.text, "1") }
+            button7.onClicked: { dial(number7.text, "1") }
+            button8.onClicked: { dial(number8.text, "1") }
+            button9.onClicked: { dial(number9.text, "1") }
+            button10.onClicked: { dial(number10.text, "1") }
+            button11.onClicked: { dial(number11.text, "1") }
         }
     }
 
