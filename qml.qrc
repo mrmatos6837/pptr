@@ -10,5 +10,10 @@
         <file>MemoryForm.ui.qml</file>
         <file>images/list_window.png</file>
         <file>SettingsForm.ui.qml</file>
+        <file>images/phone-1.png</file>
+        <file>images/phone-in.png</file>
+        <file>images/phone-out.png</file>
+        <file>images/phone-volume.png</file>
+        <file>images/eye.png</file>
     </qresource>
 </RCC>

@@ -4,7 +4,8 @@ import QtQuick.Layouts 1.3
 
 Item {
     width: 200
-    height: 400
+    height: 200
+    property alias showPassword: showPassword
     property alias login: login
     property alias password: password
     property alias ipValue: ipValue
@@ -26,8 +27,8 @@ Item {
             anchors.rightMargin: 0
 
             ColumnLayout {
-                x: 1
-                y: 28
+                x: 0
+                y: 0
 
                 Text {
                     id: ipText
@@ -45,7 +46,7 @@ Item {
 
                     TextInput {
                         id: ipValue
-                        text: qsTr("10.0.0.100")
+                        text: qsTr("172.16.4.200")
                         horizontalAlignment: Text.AlignHCenter
                         anchors.fill: parent
                         font.pixelSize: 12
@@ -68,7 +69,7 @@ Item {
 
                     TextInput {
                         id: login
-                        text: qsTr("10.0.0.100")
+                        text: qsTr("root")
                         font.pixelSize: 12
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
@@ -91,13 +92,39 @@ Item {
 
                     TextInput {
                         id: password
-                        text: qsTr("10.0.0.100")
+                        text: qsTr("root")
                         font.pixelSize: 12
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
+                        echoMode: TextInput.Password
+
+                        Image {
+                            id: image
+                            y: -43
+                            width: 100
+                            height: 100
+                            anchors.left: parent.left
+                            anchors.leftMargin: 79
+                            anchors.verticalCenter: parent.verticalCenter
+                            scale: 0.2
+                            source: "images/eye.png"
+
+                            MouseArea {
+                                id: showPassword
+                                anchors.fill: parent
+                            }
+                        }
                     }
                 }
             }
+        }
+
+        Text {
+            x: 8
+            text: qsTr("Settings menu")
+            anchors.top: parent.top
+            anchors.topMargin: 3
+            font.pixelSize: 12
         }
     }
 }

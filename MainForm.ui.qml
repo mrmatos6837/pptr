@@ -10,10 +10,17 @@ Page {
     id: page
     width: 325
     height: 600
-    property alias buttonDial: buttonDial
     property alias logText: logText
-    property alias dialNumber: dialNumber
+    property alias flickable: flickable
+    property alias scrollBar: scrollBar
+    //    property alias test: test
+    property alias iconList: iconList
+    property alias iconSettings: iconSettings
+    property alias iconHelp: iconHelp
     property alias iconDial: iconDial
+    property alias buttonDial: buttonDial
+    //    property alias logText: logText
+    property alias dialNumber: dialNumber
     property alias dialBox: dialBox
     property alias logBox: logBox
     property alias switchDND: switchDND
@@ -49,11 +56,13 @@ Page {
 
     SwitchDelegate {
         id: switchDND
-        x: 14
-        y: 11
         width: 149
         height: 40
         text: qsTr("Do Not Disturb")
+        anchors.top: parent.top
+        anchors.topMargin: 11
+        anchors.left: parent.left
+        anchors.leftMargin: 14
         highlighted: false
         autoExclusive: false
         leftPadding: 5
@@ -66,49 +75,97 @@ Page {
 
     GroupBox {
         id: logBox
-        x: 32
-        y: 494
-        width: 265
-        height: 72
-        anchors.horizontalCenterOffset: 0
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: 30
+        anchors.left: parent.left
+        anchors.leftMargin: 30
+        anchors.top: commandList.bottom
+        anchors.topMargin: 25
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 30
         title: qsTr("Log")
 
-        Text {
-            id: logText
-            text: qsTr("Text")
-            anchors.leftMargin: -5
-            anchors.bottomMargin: -7
-            anchors.rightMargin: -5
-            anchors.topMargin: -9
+        Flickable {
+            id: flickable
+            boundsBehavior: Flickable.StopAtBounds
+            flickableDirection: Flickable.VerticalFlick
+            clip: false
+            anchors.rightMargin: -8
+            anchors.leftMargin: -8
+            anchors.bottomMargin: -8
+            anchors.topMargin: -8
             anchors.fill: parent
-            anchors.top: parent.top
-            opacity: 1
-            font.weight: Font.Light
-            verticalAlignment: Text.AlignTop
-            horizontalAlignment: Text.AlignLeft
-            font.pixelSize: 12
+
+            TextArea.flickable: TextArea {
+                id: logText
+                text: "Power on!"
+                anchors.fill: parent
+                wrapMode: Text.WordWrap
+                verticalAlignment: Text.AlignBottom
+            }
+            ScrollBar.vertical: ScrollBar {
+                id: scrollBar
+                position: 1
+            }
         }
+
+        ////        TextEdit {
+        ////            id: logText
+        ////            text: qsTr("Text")
+        ////            cursorVisible: true
+        ////            readOnly: true
+        ////            clip: true
+        ////            textFormat: Text.AutoText
+        ////            topPadding: -1
+        ////            enabled: false
+        ////            wrapMode: Text.WordWrap
+        ////            anchors.topMargin: -10
+        ////            anchors.bottomMargin: -10
+        ////            anchors.leftMargin: -10
+        ////            anchors.rightMargin: -10
+        ////            anchors.fill: parent
+        ////            opacity: 1
+        ////            font.weight: Font.Light
+        ////            verticalAlignment: Text.AlignTop
+        ////            horizontalAlignment: Text.AlignLeft
+        ////            font.pixelSize: 12
+        //        //        }
+
+        ////            flickableDirection: Flickable.VerticalFlick
+        ////            anchors.rightMargin: -8
+        ////            anchors.leftMargin: -8
+        ////            anchors.bottomMargin: -8
+        ////            anchors.topMargin: -8
+        ////            anchors.fill: parent
+        ////            ScrollBar.vertical: ScrollBar {
+        ////                parent: flickable.parent
+        ////                anchors.top: flickable.top
+        ////                anchors.left: flickable.right
+        ////                anchors.bottom: flickable.bottom
+        ////            }
+        //        }
     }
 
     Frame {
         id: dialBox
         x: 84
-        y: 105
         width: 158
         height: 40
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: lineList.bottom
+        anchors.topMargin: 13
 
         TextInput {
             id: dialNumber
-            anchors.bottomMargin: -6
-            font.pointSize: 14
-            anchors.rightMargin: -73
-            anchors.leftMargin: -73
-            anchors.top: parent.verticalCenter
-            anchors.right: parent.horizontalCenter
-            anchors.left: parent.horizontalCenter
-            anchors.topMargin: -15
+            anchors.rightMargin: -10
+            anchors.leftMargin: -10
+            anchors.bottomMargin: -8
+            anchors.top: parent.top
+            anchors.right: parent.right
             anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.topMargin: -8
+            font.pointSize: 14
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignHCenter
             font.family: "Tahoma"
@@ -122,6 +179,9 @@ Page {
         y: 105
         width: 40
         height: 40
+        anchors.verticalCenter: dialBox.verticalCenter
+        anchors.right: dialBox.left
+        anchors.rightMargin: 6
         source: "images/list.png"
 
         MouseArea {
@@ -132,16 +192,21 @@ Page {
 
     Image {
         id: iconDial
-        x: 248
         y: 105
         width: 40
         height: 40
+        rotation: 135
+
+        anchors.verticalCenter: dialBox.verticalCenter
+        anchors.left: dialBox.right
+        anchors.leftMargin: 6
         scale: 1
         enabled: true
-        source: "images/call.png"
+        source: "images/phone-1.png"
 
         MouseArea {
             id: buttonDial
+            rotation: 0
             anchors.fill: parent
         }
     }
@@ -149,9 +214,12 @@ Page {
     Image {
         id: iconSettings
         x: 270
-        y: 19
         width: 25
         height: 25
+        anchors.top: parent.top
+        anchors.topMargin: 19
+        anchors.right: parent.right
+        anchors.rightMargin: 30
         source: "images/cog.png"
 
         MouseArea {
@@ -166,6 +234,8 @@ Page {
         y: 19
         width: 25
         height: 25
+        anchors.right: iconSettings.left
+        anchors.rightMargin: 6
         source: "images/help.png"
 
         MouseArea {
@@ -175,8 +245,10 @@ Page {
     }
 
     GridLayout {
+        id: dialPad
         x: 90
-        y: 168
+        anchors.top: dialBox.bottom
+        anchors.topMargin: 23
         anchors.horizontalCenter: parent.horizontalCenter
         rows: 4
         columns: 3
@@ -267,8 +339,10 @@ Page {
     }
 
     GridLayout {
+        id: commandList
         x: 38
-        y: 382
+        anchors.top: dialPad.bottom
+        anchors.topMargin: 19
         anchors.horizontalCenter: parent.horizontalCenter
         rows: 1
         columns: 3
@@ -338,8 +412,10 @@ Page {
     }
 
     RowLayout {
+        id: lineList
         x: 30
-        y: 65
+        anchors.top: parent.top
+        anchors.topMargin: 65
         anchors.horizontalCenter: parent.horizontalCenter
 
         Button {
@@ -365,15 +441,5 @@ Page {
             Layout.preferredWidth: 80
             Layout.preferredHeight: 27
         }
-    }
-
-    Rectangle {
-        id: rectangle
-        x: 324
-        y: 0
-        width: 200
-        height: 200
-        color: "#ffffff"
-        opacity: 0
     }
 }

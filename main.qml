@@ -4,14 +4,14 @@ import "."
 import "./images"
 
 ApplicationWindow {
-    id: mainWindow
+    id: application
     visible: true
-    width: 326
-    height: 653
+    minimumWidth: 325
+    minimumHeight: 650
     title: qsTr("Kpuppetter - v0.1")
 
     MainForm {
-        id: pelamordedeus;
+        id: mainWindow;
         anchors.fill: parent;
 
         ////dial stuff
@@ -28,12 +28,16 @@ ApplicationWindow {
         roundButton10.onClicked: { dialNumber.text = dialNumber.text+'*' }
         roundButton11.onClicked: { dialNumber.text = dialNumber.text+'POUND' }
 
-        buttonDial.onClicked: { dial(dialNumber.text, '1') }
+        buttonDial.onClicked: { dial(dialNumber.text, global.line) }
 
         ////other stuff
         buttonHelp.onClicked: {} //implement
-        dialNumber.onAccepted: { dial(dialNumber.text, '1') }
-        buttonList.onClicked: { memoryWindow.visible = true }
+        dialNumber.onAccepted: { dial(dialNumber.text, global.line) }
+        buttonList.onClicked: {
+            memoryWindow.visible = true;
+            memoryWindow.x = application.x-410;
+            memoryWindow.y = application.y;
+        }
         buttonSettings.onClicked: { settingsWindow.visible = true }
         buttonRedial.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=RD') }
         buttonConf.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=MUTE') }
@@ -55,60 +59,74 @@ ApplicationWindow {
 
 
         buttonLine1.onClicked: {
+            buttonLine1.font.underline = true;
             buttonLine2.font.underline = false;
             buttonLine3.font.underline = false;
-            if (buttonLine1.font.underline){
-                buttonLine1.font.underline = false
-            }
-            else {
-                buttonLine1.font.underline = true
-            }
-            request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L1');
+            global.line="1";
+//            if (buttonLine1.font.underline){
+//                buttonLine1.font.underline = false
+//            }
+//            else {
+//                buttonLine1.font.underline = true
+//            }
+//            request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L1');
         }
 
         buttonLine2.onClicked: {
             buttonLine1.font.underline = false;
+            buttonLine2.font.underline = true;
             buttonLine3.font.underline = false;
-            if (buttonLine2.font.underline){
-                buttonLine2.font.underline = false
-            }
-            else {
-                buttonLine2.font.underline = true
-            }
-            request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L2');
+            global.line="2";
+//            if (buttonLine2.font.underline){
+//                buttonLine2.font.underline = false
+//            }
+//            else {
+//                buttonLine2.font.underline = true
+//            }
+//            request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L2');
         }
         buttonLine3.onClicked: {
-            buttonLine1.font.underline = false
-            buttonLine2.font.underline = false
-            if (buttonLine3.font.underline){
-                buttonLine3.font.underline = false
-            }
-            else {
-                buttonLine3.font.underline = true
-            }
-            request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L3');
+            buttonLine1.font.underline = false;
+            buttonLine2.font.underline = false;
+            buttonLine3.font.underline = true;
+            global.line="3";
+//            if (buttonLine3.font.underline){
+//                buttonLine3.font.underline = false
+//            }
+//            else {
+//                buttonLine3.font.underline = true
+//            }
+//            request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L3');
         }
     }
 
     ApplicationWindow{
         id: settingsWindow
         visible: false
-        width: 200
-        height:400
+        x: application.x+335
+        y: application.y
+//        width: 200
+//        height:200
         title: qsTr("Kpuppetter - v0.1 - Settings")
 
         SettingsForm {
             ipValue.onAccepted: {
                 global.ip = ipValue.text;
-                pelamordedeus.logText.text = qsTr(global.ip);
+                log("ip", "changed")
             }
             login.onAccepted: {
                 global.login = login.text;
-                pelamordedeus.logText.text = qsTr(global.login);
+                log("login", "changed")
             }
             password.onAccepted: {
                 global.password = password.text;
-                pelamordedeus.logText.text = qsTr(global.password);
+                log("password", "changed")
+            }
+            showPassword.onPressed: {
+                password.echoMode = TextInput.Normal
+            }
+            showPassword.onReleased: {
+                password.echoMode = TextInput.Password
             }
         }
     }
@@ -122,18 +140,18 @@ ApplicationWindow {
         title: qsTr("Kpuppetter - v0.1 - Memory")
 
         MemoryForm {
-            button0.onClicked: { dial(number0.text, "1") }
-            button1.onClicked: { dial(number1.text, "1") }
-            button2.onClicked: { dial(number2.text, "1") }
-            button3.onClicked: { dial(number3.text, "1") }
-            button4.onClicked: { dial(number4.text, "1") }
-            button5.onClicked: { dial(number5.text, "1") }
-            button6.onClicked: { dial(number6.text, "1") }
-            button7.onClicked: { dial(number7.text, "1") }
-            button8.onClicked: { dial(number8.text, "1") }
-            button9.onClicked: { dial(number9.text, "1") }
-            button10.onClicked: { dial(number10.text, "1") }
-            button11.onClicked: { dial(number11.text, "1") }
+            button0.onClicked: { dial(number0.text, global.line) }
+            button1.onClicked: { dial(number1.text, global.line) }
+            button2.onClicked: { dial(number2.text, global.line) }
+            button3.onClicked: { dial(number3.text, global.line) }
+            button4.onClicked: { dial(number4.text, global.line) }
+            button5.onClicked: { dial(number5.text, global.line) }
+            button6.onClicked: { dial(number6.text, global.line) }
+            button7.onClicked: { dial(number7.text, global.line) }
+            button8.onClicked: { dial(number8.text, global.line) }
+            button9.onClicked: { dial(number9.text, global.line) }
+            button10.onClicked: { dial(number10.text, global.line) }
+            button11.onClicked: { dial(number11.text, global.line) }
         }
     }
 
@@ -146,6 +164,7 @@ ApplicationWindow {
             property var ip: "172.16.4.200";
             property var login: "root";
             property var password: "root";
+            property var line: "1";
             //property var dialNumber;
         }
     }
@@ -162,37 +181,62 @@ ApplicationWindow {
         //to be implemented
         //trocar pontos por asteriscos antes de enviar
         //vericiar se a chamada já não foi iniciada com o uso de POUND
-        //
+        //verificar se a chamada eh sip ou ip
+        if (number!=""){
+            request('http://'+global.login+':'+global.password+'@'+global.ip+'/goform/SavePhoneCallInfoCfg?DialNumber='+number+'&Operate=Dail&BlackListAccountID='+line);
+            console.log('http://'+global.login+':'+global.password+'@'+global.ip+'/goform/SavePhoneCallInfoCfg?DialNumber='+number+'&Operate=Dail&BlackListAccountID='+line);
+            log('dialing', number);
+        }
 
-//        request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=SPEAKER');
-//        //        request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key='+number);
-//        request('http://'+global.login+':'+global.password+'@'+global.ip+'/cgi-bin/ConfigManApp.com?key='+number);
-//        request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=F1'); //confirm dial
-
-        request('http://'+global.login+':'+global.password+'@'+global.ip+'/goform/SavePhoneCallInfoCfg?DialNumber='+number+'&Operate=Dail&BlackListAccountID='+line);
-        pelamordedeus.logText.text=qsTr(log('dialing', number))
-        ////log dial
-        //        logLine1 = logLine2;
-        //        logLine2 = logLine3;
-        //        logLine3 = 'dialing '+dialNumber.text;
-        //        logText.text = qsTr(logLine1+'\n'+logLine2+'\n'+logLine3);
-
-//        global.log1 = global.log2;
-//        global.log2 = global.log3;
-//        global.log3 = 'dialing '+mainWindow.MainForm.dialNumber.text;
-//        mainWindow.logText.text = qsTr(global.log1+'\n'+global.log2+'\n'+global.log3);
-
-        ////clear variables
-        pelamordedeus.dialNumber.text = qsTr('');
-
+        mainWindow.dialNumber.text = qsTr('');
     }
 
     function log(action, text){ //desativado por hora
 
-        global.log1 = global.log2
-        global.log2 = global.log3
-        global.log3 = action+":"+text
-        var resultString = global.log1+'\n'+global.log2+'\n'+global.log3
-        return resultString
+        mainWindow.logText.text = qsTr(mainWindow.logText.text+"\n"+action+": "+text)
+//        global.log1 = global.log2
+//        global.log2 = global.log3
+//        global.log3 = action+": "+text
+//        mainWindow.logText.text=qsTr(global.log1+'\n'+global.log2+'\n'+global.log3);
+        mainWindow.scrollBar.position = 1;
+        mainWindow.scrollBar.increase();
+        return 0
     }
+
+    /// slot functions
+
+    function slotRegistered(){
+        log("request", "registered");
+    }
+    function slotOffhook(){
+        log("request", "offhook");
+    }
+    function slotOnhook(){
+        log("request", "onhook");
+    }
+    function slotIncoming(){
+        log("request", "incoming");
+    }
+    function slotOutgoing(){
+        log("request", "outgoing");
+        mainWindow.iconDial.source = "images/phone-volume.png";
+        mainWindow.iconDial.rotation = 0;
+    }
+    function slotEstabilished(){
+        log("request", "estabilished");
+    }
+    function slotTerminated(){
+        log("request", "terminated");
+        mainWindow.iconDial.source = "images/phone-1.png";
+        mainWindow.iconDial.rotation = 135;
+    }
+    function slotMissed(){
+        log("request", "missed");
+    }
+
+
 }
+
+
+
+//
