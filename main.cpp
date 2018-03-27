@@ -4,6 +4,7 @@
 #include <QQmlContext>
 
 #include "mytcpserver.h"
+#include "fileio.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
     QObject *topLevel = engine.rootObjects().value(0);
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
 
+    engine.rootContext()->setContextProperty("FileIO", new FileIO());
     MyTcpServer server;
 
     QObject::connect(&server, SIGNAL(signalRegistered()), window, SLOT(slotRegistered()));

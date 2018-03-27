@@ -8,7 +8,7 @@ Item {
     property alias showPassword: showPassword
     property alias login: login
     property alias password: password
-    property alias ipValue: ipValue
+    property alias ipAddress: ipAddress
 
     Rectangle {
         id: rectangle
@@ -45,7 +45,7 @@ Item {
                     Layout.preferredWidth: 111
 
                     TextInput {
-                        id: ipValue
+                        id: ipAddress
                         text: qsTr("172.16.4.200")
                         horizontalAlignment: Text.AlignHCenter
                         anchors.fill: parent

@@ -15,5 +15,7 @@
         <file>images/phone-out.png</file>
         <file>images/phone-volume.png</file>
         <file>images/eye.png</file>
+        <file>fileio.cpp</file>
+        <file>fileio.h</file>
     </qresource>
 </RCC>

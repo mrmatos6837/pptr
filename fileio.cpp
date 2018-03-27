@@ -1,22 +1,56 @@
 #include "fileio.h"
-#include <QFile>
-#include <QTextStream>
+
 
 FileIO::FileIO()
 {
 
 }
 
-void FileIO::save(QString text){
-    QFile file("text.txt");
+void FileIO::appendToEnd(QString text, QString filePath){
+    QFile file(filePath);
 
-    if(file.open(QIODevice::ReadWrite)){
-    QTextStream stream(&file);
-    stream << text << endl;
+    if(file.open(QIODevice::ReadWrite | QIODevice::Append)){
+        QTextStream stream(&file);
+        stream << text << endl;
     }
+    qDebug() << "file updated";
 
-    return;
+}
 
+void FileIO::overwriteLine(int position, QString text, QString filePath){
+    QFile file(filePath);
+    if(file.open(QIODevice::ReadOnly)){
+        QString data = file.readAll();
+        QStringList parsedData = data.split(QRegExp("[ \r\n][ \r\n]*"));
+        file.close();   //close to reset to initial position
+        file.open(QIODevice::WriteOnly); //open to reset
+        QTextStream stream(&file);
+        int i=0;
+        while(i<parsedData.length() && parsedData.at(i)!=""){
+            if(i==position){
+                stream << text << endl;
+            }
+            else{
+                stream << parsedData.at(i) << endl;
+            }
+            i++;
+        }
+    }
+    qDebug() << "file written";
+}
+
+QString FileIO::readLines(int position, QString filePath){
+    QFile file(filePath);
+    QString data;
+    if(file.open(QIODevice::ReadWrite)){
+         data = file.readAll();
+    }
+    QStringList parsedData = data.split(QRegExp("[ \r\n][ \r\n]*"));
+//    qDebug() << data;
+//    qDebug() << parsedData;
+//    qDebug() << parsedData.at(position);
+    QString returnData = parsedData.at(position);
+    return returnData;
 }
 
 FileIO::~FileIO()

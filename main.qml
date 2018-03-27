@@ -1,5 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Window 2.3
+import QtQuick.Dialogs 1.2
 import "."
 import "./images"
 
@@ -31,14 +33,21 @@ ApplicationWindow {
         buttonDial.onClicked: { dial(dialNumber.text, global.line) }
 
         ////other stuff
-        buttonHelp.onClicked: {} //implement
+        buttonHelp.onClicked: {
+            FileIO.readLines(1, global.logFilePath);
+        } //implement
         dialNumber.onAccepted: { dial(dialNumber.text, global.line) }
         buttonList.onClicked: {
             memoryWindow.visible = true;
             memoryWindow.x = application.x-410;
             memoryWindow.y = application.y;
         }
-        buttonSettings.onClicked: { settingsWindow.visible = true }
+        buttonSettings.onClicked: {
+            settingsWindow.visible = true;
+            settings.ipAddress.text = qsTr(FileIO.readLines(0, global.settingsFilePath));
+            settings.login.text = qsTr(FileIO.readLines(1, global.settingsFilePath));
+            settings.password.text = qsTr(FileIO.readLines(2, global.settingsFilePath));
+        }
         buttonRedial.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=RD') }
         buttonConf.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=MUTE') }
         buttonMsg.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=MSG') }
@@ -105,22 +114,25 @@ ApplicationWindow {
         visible: false
         x: application.x+335
         y: application.y
-//        width: 200
-//        height:200
-        title: qsTr("Kpuppetter - v0.1 - Settings")
+
+        signal ipChangedSignal(string text);
+        signal loginChangedSignal(string text);
+        signal passwordChangedSignal(string text);
+        title: qsTr("Kpuppetter - v0.1 - Settings");
 
         SettingsForm {
-            ipValue.onAccepted: {
-                global.ip = ipValue.text;
-                log("ip", "changed")
+            id:settings;
+            ipAddress.onAccepted: {
+                FileIO.overwriteLine(0, ipAddress.text, global.settingsFilePath);
+                log("ip changed");
             }
             login.onAccepted: {
-                global.login = login.text;
-                log("login", "changed")
+                FileIO.overwriteLine(1, login.text, global.settingsFilePath);
+                log("login changed");
             }
             password.onAccepted: {
-                global.password = password.text;
-                log("password", "changed")
+                FileIO.overwriteLine(2, password.text, global.settingsFilePath);
+                log("password changed");
             }
             showPassword.onPressed: {
                 password.echoMode = TextInput.Normal
@@ -158,14 +170,9 @@ ApplicationWindow {
     Item {
         QtObject {
             id: global;
-            property var log1: "";
-            property var log2: "";
-            property var log3: "";
-            property var ip: "172.16.4.200";
-            property var login: "root";
-            property var password: "root";
+            property var logFilePath: "C:/Users/Khomp/Documents/QTprojects/pptr/log.txt";
+            property var settingsFilePath: "C:/Users/Khomp/Documents/QTprojects/pptr/settings.txt";
             property var line: "1";
-            //property var dialNumber;
         }
     }
 
@@ -182,25 +189,36 @@ ApplicationWindow {
         //trocar pontos por asteriscos antes de enviar
         //vericiar se a chamada já não foi iniciada com o uso de POUND
         //verificar se a chamada eh sip ou ip
+        var credentials = getCredentials();
         if (number!=""){
-            request('http://'+global.login+':'+global.password+'@'+global.ip+'/goform/SavePhoneCallInfoCfg?DialNumber='+number+'&Operate=Dail&BlackListAccountID='+line);
-            console.log('http://'+global.login+':'+global.password+'@'+global.ip+'/goform/SavePhoneCallInfoCfg?DialNumber='+number+'&Operate=Dail&BlackListAccountID='+line);
-            log('dialing', number);
+            request('http://'+getCredentials()+'/goform/SavePhoneCallInfoCfg?DialNumber='+number+'&Operate=Dail&BlackListAccountID='+line);
+            console.log('http://'+getCredentials()+'/goform/SavePhoneCallInfoCfg?DialNumber='+number+'&Operate=Dail&BlackListAccountID='+line);
+            log('Dialing: '+number);
         }
 
         mainWindow.dialNumber.text = qsTr('');
     }
 
-    function log(action, text){ //desativado por hora
+    function log(text){
+        var append = "[ "+getTime()+" ] "+text;
+        mainWindow.logText.text = qsTr(mainWindow.logText.text+"\n"+append);
+        mainWindow.scrollBar.position = 1;  //autoscroll
+        mainWindow.scrollBar.increase();    //gambiarra para o autoscroll funcionar corretamente
 
-        mainWindow.logText.text = qsTr(mainWindow.logText.text+"\n"+action+": "+text)
-//        global.log1 = global.log2
-//        global.log2 = global.log3
-//        global.log3 = action+": "+text
-//        mainWindow.logText.text=qsTr(global.log1+'\n'+global.log2+'\n'+global.log3);
-        mainWindow.scrollBar.position = 1;
-        mainWindow.scrollBar.increase();
-        return 0
+        FileIO.appendToEnd(append, global.logFilePath);  //salva no log.txt
+        return 0;
+    }
+
+    function getCredentials() {
+        var ip = FileIO.readLines(0, global.settingsFilePath);
+        var login = FileIO.readLines(1, global.settingsFilePath);
+        var password = FileIO.readLines(2, global.settingsFilePath);
+        return login+':'+password+'@'+ip;
+}
+
+    function getTime(){
+        var d = new Date();
+        return d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()+"-"+d.getHours()+":"+d.getMinutes();
     }
 
     /// slot functions

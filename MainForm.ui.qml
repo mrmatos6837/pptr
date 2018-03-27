@@ -101,7 +101,7 @@ Page {
                 text: "Power on!"
                 anchors.fill: parent
                 wrapMode: Text.WordWrap
-                verticalAlignment: Text.AlignBottom
+                verticalAlignment: Text.AlignTop
             }
             ScrollBar.vertical: ScrollBar {
                 id: scrollBar
