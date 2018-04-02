@@ -20,7 +20,4 @@ IMPROVEMENTS:
 	
 	signal e slot para chamadas de funções
 		aumenta ortogonalidade
-
-
-	
-
+		

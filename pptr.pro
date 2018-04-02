@@ -3,7 +3,7 @@ QT += network
 QT -= gui
 CONFIG += c++11
 
-TARGET = TcpServer
+TARGET = main
 CONFIG += console
 CONFIG -= app_bundle
 
@@ -42,4 +42,5 @@ HEADERS += \
     fileio.h
 
 DISTFILES += \
-    text.txt
+    text.txt \
+    index.html

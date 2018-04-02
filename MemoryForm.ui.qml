@@ -43,84 +43,84 @@ Item {
             width: 96
             height: 350
 
-            Text {
+            TextInput {
                 id: name0
                 text: qsTr("Ana")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name1
                 text: qsTr("Bob")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name2
                 text: qsTr("Charlie")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name3
                 text: qsTr("Denis")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name4
                 text: qsTr("-")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name5
                 text: qsTr("-")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name6
                 text: qsTr("-")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name7
                 text: qsTr("-")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name8
                 text: qsTr("-")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name9
                 text: qsTr("-")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name10
                 text: qsTr("-")
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: name11
                 text: qsTr("-")
                 Layout.fillWidth: true
@@ -133,7 +133,7 @@ Item {
             y: 37
             width: 155
             height: 350
-            TextEdit {
+            TextInput {
                 id: number0
                 text: qsTr("1001")
                 Layout.fillWidth: true
@@ -141,7 +141,7 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number1
                 text: qsTr("1002")
                 horizontalAlignment: Text.AlignHCenter
@@ -149,7 +149,7 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number2
                 text: qsTr("1003")
                 horizontalAlignment: Text.AlignHCenter
@@ -157,7 +157,7 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number3
                 text: qsTr("-")
                 horizontalAlignment: Text.AlignHCenter
@@ -165,7 +165,7 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number4
                 text: qsTr("-")
                 horizontalAlignment: Text.AlignHCenter
@@ -173,7 +173,7 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number5
                 text: qsTr("-")
                 horizontalAlignment: Text.AlignHCenter
@@ -181,7 +181,7 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number6
                 text: qsTr("-")
                 horizontalAlignment: Text.AlignHCenter
@@ -189,7 +189,7 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number7
                 text: qsTr("-")
                 horizontalAlignment: Text.AlignHCenter
@@ -197,7 +197,7 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number8
                 text: qsTr("-")
                 horizontalAlignment: Text.AlignHCenter
@@ -205,7 +205,7 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number9
                 text: qsTr("-")
                 horizontalAlignment: Text.AlignHCenter
@@ -213,14 +213,14 @@ Item {
                 font.pixelSize: 20
             }
 
-            Text {
+            TextInput {
                 id: number10
                 text: qsTr("-")
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillWidth: true
                 font.pixelSize: 20
             }
-            Text {
+            TextInput {
                 id: number11
                 text: qsTr("-")
                 horizontalAlignment: Text.AlignHCenter

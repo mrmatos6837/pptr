@@ -7,18 +7,21 @@ FileIO::FileIO()
 }
 
 void FileIO::appendToEnd(QString text, QString filePath){
+
     QFile file(filePath);
 
     if(file.open(QIODevice::ReadWrite | QIODevice::Append)){
         QTextStream stream(&file);
         stream << text << endl;
     }
-    qDebug() << "file updated";
+    qDebug() << "log updated";
 
 }
 
 void FileIO::overwriteLine(int position, QString text, QString filePath){
+
     QFile file(filePath);
+
     if(file.open(QIODevice::ReadOnly)){
         QString data = file.readAll();
         QStringList parsedData = data.split(QRegExp("[ \r\n][ \r\n]*"));
@@ -36,7 +39,7 @@ void FileIO::overwriteLine(int position, QString text, QString filePath){
             i++;
         }
     }
-    qDebug() << "file written";
+    qDebug() << "settings updated";
 }
 
 QString FileIO::readLines(int position, QString filePath){
@@ -53,8 +56,14 @@ QString FileIO::readLines(int position, QString filePath){
     return returnData;
 }
 
+void FileIO::openUrlFile(QString path){
+    qDebug() << "Open help page on path"<< path << ":" << QDesktopServices::openUrl(QUrl(path, QUrl::TolerantMode));
+//    QDesktopServices::openUrl(QUrl(path, QUrl::TolerantMode));
+}
+
 FileIO::~FileIO()
 {
 
 }
+
 

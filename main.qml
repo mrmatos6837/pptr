@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.0
 import QtQuick.Window 2.3
 import QtQuick.Dialogs 1.2
 import "."
@@ -10,7 +10,7 @@ ApplicationWindow {
     visible: true
     minimumWidth: 325
     minimumHeight: 650
-    title: qsTr("Kpuppetter - v0.1")
+    title: qsTr("Kpuppetter - ALPHA version")
 
     MainForm {
         id: mainWindow;
@@ -30,12 +30,23 @@ ApplicationWindow {
         roundButton10.onClicked: { dialNumber.text = dialNumber.text+'*' }
         roundButton11.onClicked: { dialNumber.text = dialNumber.text+'POUND' }
 
-        buttonDial.onClicked: { dial(dialNumber.text, global.line) }
+        buttonDial.onClicked: {
+            if (mainWindow.iconDial.rotation == 0){
+                request('http://'+getCredentials()+'/goform/SavePhoneCallInfoCfg?Operate=Hangup');
+                mainWindow.iconDial.source = "images/phone-1.png";
+                mainWindow.iconDial.rotation = 135;
+            }
+            else{
+                dial(dialNumber.text, global.line);
+            }
+
+        }
 
         ////other stuff
         buttonHelp.onClicked: {
-            FileIO.readLines(1, global.logFilePath);
-        } //implement
+            FileIO.openUrlFile("C:/pptr/help.html");
+//            popup.visible = true;
+        }
         dialNumber.onAccepted: { dial(dialNumber.text, global.line) }
         buttonList.onClicked: {
             memoryWindow.visible = true;
@@ -48,64 +59,45 @@ ApplicationWindow {
             settings.login.text = qsTr(FileIO.readLines(1, global.settingsFilePath));
             settings.password.text = qsTr(FileIO.readLines(2, global.settingsFilePath));
         }
-        buttonRedial.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=RD') }
-        buttonConf.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=MUTE') }
-        buttonMsg.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=MSG') }
-        buttonTransfer.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=F_TRANSFER') }
-        buttonCancel.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=X') }
-        buttonHold.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=F_HOLD') }
-        buttonSpeaker.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=SPEAKER') }
-        buttonHeadset.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=HEADSET') }
-        buttonMute.onClicked: { request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=MUTE') }
+        buttonRedial.onClicked: {
+            command('SPEAKER');
+            command('RD');
+        }
+        buttonConf.onClicked: { command('F_CONFERENCE') }
+        buttonMsg.onClicked: { command('MSG') }
+        buttonTransfer.onClicked: { command('F_TRANSFER') }
+        buttonCancel.onClicked: { command('X') }
+        buttonHold.onClicked: { command('F_HOLD') }
+        buttonSpeaker.onClicked: { command('SPEAKER') }
+        buttonHeadset.onClicked: { command('HEADSET') }
+        buttonMute.onClicked: { command('MUTE') }
         switchDND.onClicked: {
             if (switchDND.checked) {
-                request('http://'+global.login+':'+global.password+'@'+global.ip+'/cgi-bin/ConfigManApp.com?key=DNDOn');
-            }
-            else {
-                request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=DNDOff');
+                command('DNDOn');
+            } else {
+                command('DNDOff');
             }
         }
-
 
         buttonLine1.onClicked: {
             buttonLine1.font.underline = true;
             buttonLine2.font.underline = false;
             buttonLine3.font.underline = false;
-            global.line="1";
-//            if (buttonLine1.font.underline){
-//                buttonLine1.font.underline = false
-//            }
-//            else {
-//                buttonLine1.font.underline = true
-//            }
-//            request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L1');
+            global.line=0;
+
         }
 
         buttonLine2.onClicked: {
             buttonLine1.font.underline = false;
             buttonLine2.font.underline = true;
             buttonLine3.font.underline = false;
-            global.line="2";
-//            if (buttonLine2.font.underline){
-//                buttonLine2.font.underline = false
-//            }
-//            else {
-//                buttonLine2.font.underline = true
-//            }
-//            request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L2');
+            global.line=1;
         }
         buttonLine3.onClicked: {
             buttonLine1.font.underline = false;
             buttonLine2.font.underline = false;
             buttonLine3.font.underline = true;
-            global.line="3";
-//            if (buttonLine3.font.underline){
-//                buttonLine3.font.underline = false
-//            }
-//            else {
-//                buttonLine3.font.underline = true
-//            }
-//            request('http://root:root@172.16.4.200/cgi-bin/ConfigManApp.com?key=L3');
+            global.line=2;
         }
     }
 
@@ -114,6 +106,9 @@ ApplicationWindow {
         visible: false
         x: application.x+335
         y: application.y
+        width: 300
+        height: 420
+
 
         signal ipChangedSignal(string text);
         signal loginChangedSignal(string text);
@@ -167,13 +162,37 @@ ApplicationWindow {
         }
     }
 
+    ApplicationWindow {
+        id: popup
+        visible: false
+        width: 250
+        height: 120
+
+        IncomingCallForm {
+            answerButton.onClicked: {
+                command('F1');
+                popup.visible = false;
+                mainWindow.iconDial.source = "images/phone-volume.png";
+                mainWindow.iconDial.rotation = 0;
+            }
+            rejectButton.onClicked: {
+                command('X');
+                popup.visible = false;
+                mainWindow.iconDial.source = "images/phone-1.png";
+                mainWindow.iconDial.rotation = 135;
+            }
+        }
+    }
+
     Item {
         QtObject {
             id: global;
-            property var logFilePath: "C:/Users/Khomp/Documents/QTprojects/pptr/log.txt";
-            property var settingsFilePath: "C:/Users/Khomp/Documents/QTprojects/pptr/settings.txt";
-            property var line: "1";
+            property var logFilePath: "C:/pptr/log.txt";
+            property var settingsFilePath: "C:/pptr/settings.txt";
+            property var line: 0;
+//            property var status;
         }
+
     }
 
 
@@ -189,14 +208,20 @@ ApplicationWindow {
         //trocar pontos por asteriscos antes de enviar
         //vericiar se a chamada já não foi iniciada com o uso de POUND
         //verificar se a chamada eh sip ou ip
-        var credentials = getCredentials();
+//        var credentials = getCredentials();
         if (number!=""){
             request('http://'+getCredentials()+'/goform/SavePhoneCallInfoCfg?DialNumber='+number+'&Operate=Dail&BlackListAccountID='+line);
             console.log('http://'+getCredentials()+'/goform/SavePhoneCallInfoCfg?DialNumber='+number+'&Operate=Dail&BlackListAccountID='+line);
-            log('Dialing: '+number);
+            log('Dialing: '+number+', line '+(line+1));
         }
 
         mainWindow.dialNumber.text = qsTr('');
+    }
+
+    function command(code){
+        request('http://'+getCredentials()+'/cgi-bin/ConfigManApp.com?key='+code);
+        log('command: '+code);
+        return 0;
     }
 
     function log(text){
@@ -224,32 +249,35 @@ ApplicationWindow {
     /// slot functions
 
     function slotRegistered(){
-        log("request", "registered");
+        log("status: registered");
     }
     function slotOffhook(){
-        log("request", "offhook");
+        log("status: offhook");
     }
     function slotOnhook(){
-        log("request", "onhook");
+        log("status: onhook");
     }
     function slotIncoming(){
-        log("request", "incoming");
+        log("status: incoming");
+        popup.visible = true;
     }
     function slotOutgoing(){
-        log("request", "outgoing");
+        log("status: outgoing");
+//        global.status = "calling";
         mainWindow.iconDial.source = "images/phone-volume.png";
         mainWindow.iconDial.rotation = 0;
     }
     function slotEstabilished(){
-        log("request", "estabilished");
+        log("status: estabilished");
     }
     function slotTerminated(){
-        log("request", "terminated");
+        log("status: terminated");
+//        global.status = "idle";
         mainWindow.iconDial.source = "images/phone-1.png";
         mainWindow.iconDial.rotation = 135;
     }
     function slotMissed(){
-        log("request", "missed");
+        log("status: missed");
     }
 
 

@@ -1,11 +1,12 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.0
-import QtQuick.Extras 1.4
-import QtQuick.Window 2.10
-import QtQuick.Scene2D 2.9
-import QtQuick.Controls.Styles 1.4
 
+
+//import QtQuick.Extras 1.4
+//import QtQuick.Window 2.10
+//import QtQuick.Scene2D 2.9
+//import QtQuick.Controls.Styles 1.4
 Page {
     id: page
     width: 325
@@ -13,13 +14,11 @@ Page {
     property alias logText: logText
     property alias flickable: flickable
     property alias scrollBar: scrollBar
-    //    property alias test: test
     property alias iconList: iconList
     property alias iconSettings: iconSettings
     property alias iconHelp: iconHelp
     property alias iconDial: iconDial
     property alias buttonDial: buttonDial
-    //    property alias logText: logText
     property alias dialNumber: dialNumber
     property alias dialBox: dialBox
     property alias logBox: logBox

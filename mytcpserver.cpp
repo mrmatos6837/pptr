@@ -43,10 +43,10 @@ void MyTcpServer::newConnection()
     if(tokens.at(1)=="/onhook"){
             emit signalOnhook();
     }
-    if(tokens.at(1)=="/incoming"){
+    if(tokens.at(1)=="/incomingcall"){
             emit signalIncoming();
     }
-    if(tokens.at(1)=="/outgoing"){
+    if(tokens.at(1)=="/outgoingcall"){
             emit signalOutgoing();
     }
     if(tokens.at(1)=="/estabilished"){
@@ -55,7 +55,7 @@ void MyTcpServer::newConnection()
     if(tokens.at(1)=="/terminated"){
             emit signalTerminated();
     }
-    if(tokens.at(1)=="/missed"){
+    if(tokens.at(1)=="/missedcall"){
             emit signalMissed();
     }
 

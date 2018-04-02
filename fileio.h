@@ -5,6 +5,9 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QDir>
 
 class FileIO : public QObject
 {
@@ -16,6 +19,7 @@ public:
     Q_INVOKABLE void appendToEnd(QString text, QString filePath);
     Q_INVOKABLE void overwriteLine(int position,QString text, QString filePath);
     Q_INVOKABLE QString readLines(int position, QString filePath);
+    Q_INVOKABLE void openUrlFile(QString path);
     ~FileIO();
 
 signals:

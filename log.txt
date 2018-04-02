@@ -1,2 +1,6 @@
 [ 27/2/2018-19:28 ] Dialing: 123
 [ 27/2/2018-19:28 ] login changed
+[ 28/2/2018-11:30 ] ip changed
+[ 28/2/2018-11:31 ] ip changed
+[ 28/2/2018-11:31 ] ip changed
+[ 28/2/2018-11:31 ] password changed

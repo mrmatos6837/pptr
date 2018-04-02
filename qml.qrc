@@ -17,5 +17,9 @@
         <file>images/eye.png</file>
         <file>fileio.cpp</file>
         <file>fileio.h</file>
+        <file>images/khomp_Logo_Small.png</file>
+        <file>log.txt</file>
+        <file>settings.txt</file>
+        <file>IncomingCallForm.ui.qml</file>
     </qresource>
 </RCC>
